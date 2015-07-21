@@ -1,6 +1,6 @@
 class CreateSalesforcePricebook2 < ActiveRecord::Migration
   def up
-    return if ENV["DEPLOYMENT"] == "production"
+    return if ENV["DATABASE_ENV"] == "production"
     HerokuConnect.change_schema("salesforce") do
       create_table :pricebook2 do |t|
         t.column :sfid, "varchar(18)", unique: true
@@ -13,7 +13,7 @@ class CreateSalesforcePricebook2 < ActiveRecord::Migration
   end
 
   def down
-    return if ENV["DEPLOYMENT"] == "production"
+    return if ENV["DATABASE_ENV"] == "production"
     HerokuConnect.change_schema("salesforce") do
       execute "DROP TABLE pricebook2"
     end

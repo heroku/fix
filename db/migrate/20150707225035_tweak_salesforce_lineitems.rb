@@ -1,6 +1,6 @@
 class TweakSalesforceLineitems < ActiveRecord::Migration
   def up
-    return if ENV["DEPLOYMENT"] == "production"
+    return if ENV["DATABASE_ENV"] == "production"
     HerokuConnect.change_schema("salesforce") do
       rename_column :lineitem__c, :price__c, :price_unit__c
       add_column :lineitem__c, :price_total__c, :float
@@ -9,7 +9,7 @@ class TweakSalesforceLineitems < ActiveRecord::Migration
   end
 
   def down
-    return if ENV["DEPLOYMENT"] == "production"
+    return if ENV["DATABASE_ENV"] == "production"
     HerokuConnect.change_schema("salesforce") do
       rename_column :lineitem__c, :price_unit__c, :price__c
       remove_column :lineitem__c, :price_total__c

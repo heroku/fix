@@ -1,6 +1,6 @@
 class CreateSalesforceContact < ActiveRecord::Migration
   def up
-    return if ENV["DEPLOYMENT"] == "production"
+    return if ENV["DATABASE_ENV"] == "production"
     HerokuConnect.change_schema("salesforce") do
       create_table :contact do |t|
         t.column :mailingstreet, "varchar(255)"
@@ -19,7 +19,7 @@ class CreateSalesforceContact < ActiveRecord::Migration
   end
 
   def down
-    return if ENV["DEPLOYMENT"] == "production"
+    return if ENV["DATABASE_ENV"] == "production"
     HerokuConnect.change_schema("salesforce") do
       execute "DROP TABLE contact"
     end
