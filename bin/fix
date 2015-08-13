@@ -8,17 +8,19 @@ class MyCLI < Thor
   DB_NAME='spree-dev'.freeze
   SAMPLE_DIR='sample'.freeze
   DB_OUTPUT_FILE='fix.sql'.freeze
+  DB_OUTPUT_FILE_PATH=File.join(SAMPLE_DIR, DB_OUTPUT_FILE).freeze
   S3_OUTPUT_DIR='s3'.freeze
+  S3_OUTPUT_FILE_PATH=File.join(SAMPLE_DIR, S3_OUTPUT_DIR).freeze
 
   class_option :database, desc: 'Name of the database', banner: 'NAME', default: DB_NAME, aliases: ['d'], type: :string
 
-  desc "import", "loads demo data into the database & Amazon S3"
+  desc "import", "loads demo data into the database & Amazon S3 (may run on Heroku or locally)"
   def import
     invoke :import_db
     invoke :import_s3
   end
 
-  desc "export", "saves demo data from the database & Amazon S3"
+  desc "export", "saves demo data from the database & Amazon S3 (must run locally)"
   def export
     invoke :export_db
     invoke :export_s3
@@ -60,10 +62,9 @@ class MyCLI < Thor
     end
   end
 
-  desc "export_db", "saves products & kits from the database to a Postgres SQL file"
+  desc "export_db", "saves products & kits from the database to a Postgres SQL file on the local filesystem (#{DB_OUTPUT_FILE_PATH})"
   def export_db
-    output_file = File.join(SAMPLE_DIR, DB_OUTPUT_FILE)
-    puts "...writing #{output_file}"
+    puts "...writing #{DB_OUTPUT_FILE_PATH}"
 
     FileUtils.mkdir_p(File.join(SAMPLE_DIR))
 
@@ -95,15 +96,15 @@ class MyCLI < Thor
         -t spree_taxons_promotion_rules \
         -t spree_taxons_prototypes \
         -t spree_variants \
-        > #{output_file}
+        > #{DB_OUTPUT_FILE_PATH}
     HEREDOC
   end
 
-  desc "export_s3", "saves image assets from S3"
+  desc "export_s3", "saves image assets from S3 to a directory on the local filesystem (#{S3_OUTPUT_FILE_PATH})"
   def export_s3
     assert_env_present('AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY', 'AWS_S3_BUCKET')
 
-    FileUtils.mkdir_p(File.join(SAMPLE_DIR, S3_OUTPUT_DIR))
+    FileUtils.mkdir_p(S3_OUTPUT_FILE_PATH)
 
     AWS.config(
       :access_key_id => ENV['AWS_ACCESS_KEY_ID'],

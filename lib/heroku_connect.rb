@@ -2,6 +2,8 @@ module HerokuConnect
   extend ActiveSupport::Concern
 
   def self.sync(table_name, columns, conditions=nil)
+    return unless ActiveRecord::Base.connection.table_exists?(table_name)
+
     table = Arel::Table.new(table_name)
     updates = columns.map do |column, value|
       [table[column], value]

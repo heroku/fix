@@ -18,5 +18,5 @@ Dir.chdir APP_ROOT do
   # end
 
   puts "\n== Preparing database =="
-  system "bundle exec rake db:create railties:install:migrations db:migrate db:seed"
+  system "AUTO_ACCEPT=1 bundle exec rake db:create railties:install:migrations db:migrate db:seed"
 end

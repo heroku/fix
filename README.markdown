@@ -1,6 +1,8 @@
 Salesforce eCommerce w/ Spree
 =============================
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/heroku/fix)
+
 ## Customizations
 
 Spree is built on Ruby on Rails, so customizing it is an exercise in altering and extending a large Rails app.
