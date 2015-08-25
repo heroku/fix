@@ -1,36 +1,38 @@
-<% if @taxon.hero_file_name %>
-  <div class='stacked-block'>
-    <div class='row'>
-      <div class='hero-image col-sm-8'>
-        <%= image_tag @taxon.hero.url %>
-      </div>
-      <div class='col-sm-4'>
-        <div class="row stacked-block">
-          <div class="col-xs-12">
-            <h1 class="taxon-title"><%= @taxon.name %></h1>
+<% if @taxon.children.empty? %>
+  <% if @taxon.hero_file_name %>
+    <div class='stacked-block'>
+      <div class='row'>
+        <div class='hero-image col-sm-8'>
+          <%= image_tag @taxon.hero.url %>
+        </div>
+        <div class='col-sm-4'>
+          <div class="row stacked-block">
+            <div class="col-xs-12">
+              <h1 class="taxon-title"><%= @taxon.name %></h1>
+            </div>
           </div>
+          <div itemprop="description" class="stacked-block" data-hook="description">
+            <%= product_description(@taxon) rescue Spree.t(:product_has_no_description) %>
+          </div>
+          <%= render partial: 'white_label/taxons/add_to_cart' %>
         </div>
-        <div itemprop="description" class="stacked-block" data-hook="description">
-          <%= product_description(@taxon) rescue Spree.t(:product_has_no_description) %>
-        </div>
-        <%= render partial: 'white_label/taxons/add_to_cart' %>
       </div>
     </div>
-  </div>
-<% else %>
-  <div class="taxon-header stacked-block">
-    <div class="row">
-      <div class="col-xs-12">
-        <h1 class="taxon-title"><%= @taxon.name %></h1>
+  <% else %>
+    <div class="taxon-header stacked-block">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 class="taxon-title"><%= @taxon.name %></h1>
+        </div>
       </div>
+      <%= render partial: 'white_label/taxons/add_to_cart' %>
     </div>
-    <%= render partial: 'white_label/taxons/add_to_cart' %>
+  <% end %>
+  
+  <div class="stacked-block" data-hook="taxon_products">
+    <%= render partial: 'spree/shared/products', locals: { products: @products, taxon: @taxon } %>
   </div>
 <% end %>
-
-<div class="stacked-block" data-hook="taxon_products">
-  <%= render partial: 'spree/shared/products', locals: { products: @products, taxon: @taxon } %>
-</div>
 
 <% unless params[:keywords].present? %>
   <div class="stacked-block" data-hook="taxon_children">

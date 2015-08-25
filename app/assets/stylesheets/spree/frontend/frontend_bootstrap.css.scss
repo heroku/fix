@@ -102,6 +102,11 @@ a:hover, a:focus {
   }
 }
 
+/* For space between children on taxons/show (not home/index)  */
+.taxon-listing + .taxon-listing {
+  margin-top: 40px;
+}
+
 .taxon-listing .hero-image {
   height: 420px;
   background: no-repeat center center;
@@ -216,6 +221,14 @@ h1.product-title {
     & {
       font-size: 36px;
     }
+  }
+}
+
+.listing-page {
+  text-align: center;
+
+  .row {
+    text-align: left;
   }
 }
 
