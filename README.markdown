@@ -14,8 +14,10 @@ Reference Architecture for eCommerce on Heroku – [More Information](https://he
 
 When using the **Deploy to Heroku** button, a Salesforce org is not connected or configured. Either:
 
-* follow the [Salesforce setup](#salesforce-setup) below
-* *WORK IN PROGRESS* use the FIX Installer to deploy the app connected with a new Salesforce Trial Org.
+* use the [Salesforce template](https://login.salesforce.com/packaging/installPackage.apexp?p0=04t370000005uZf)
+* follow the [Salesforce setup](#salesforce-setup), below
+
+*In either case, [Heroku Connect must be setup](#heroku_connect_setup).*
 
 ## Deploying the coffee demo vs an empty storefront
 
